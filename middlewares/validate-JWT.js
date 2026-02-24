@@ -36,7 +36,7 @@ export const validateJWT = async (req, res, next) => {
     }
 
     // Verificar si el usuario está activo
-    if (!user.Status) {
+    if (!user.status) {
       return res.status(423).json({
         success: false,
         message: 'Cuenta desactivada. Contacta al administrador.',
@@ -45,7 +45,7 @@ export const validateJWT = async (req, res, next) => {
 
     // Agregar el usuario al request
     req.user = user;
-    req.userId = user.Id.toString();
+    req.userId = user._id.toString();
 
     next();
   } catch (error) {

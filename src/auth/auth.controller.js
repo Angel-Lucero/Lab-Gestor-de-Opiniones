@@ -6,7 +6,10 @@ import {
   forgotPasswordHelper,
   resetPasswordHelper,
 } from '../../helpers/auth-operations.js';
-import { getUserProfileHelper } from '../../helpers/profile-operations.js';
+import {
+  getUserProfileHelper,
+  updateUserProfileHelper,
+} from '../../helpers/profile-operations.js';
 import { asyncHandler } from '../../middlewares/server-genericError-handler.js';
 
 export const register = asyncHandler(async (req, res) => {
@@ -195,10 +198,34 @@ export const getProfileById = asyncHandler(async (req, res) => {
 
   const user = await getUserProfileHelper(userId);
 
-  // Respuesta estandarizada con envelope
   return res.status(200).json({
     success: true,
     message: 'Perfil obtenido exitosamente',
     data: user,
   });
+});
+
+export const updateProfile = asyncHandler(async (req, res) => {
+  try {
+    const userId = req.userId;
+    const updatedUser = await updateUserProfileHelper(userId, req.body, req.file);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Perfil actualizado exitosamente',
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.error('Error en updateProfile controller:', error);
+
+    let statusCode = error.status || 400;
+    if (error.message.includes('no encontrado')) statusCode = 404;
+    else if (error.message.includes('ya está en uso')) statusCode = 409;
+    else if (error.message.includes('incorrecta')) statusCode = 401;
+
+    return res.status(statusCode).json({
+      success: false,
+      message: error.message || 'Error al actualizar el perfil',
+    });
+  }
 });
