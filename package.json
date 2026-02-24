@@ -1,27 +1,21 @@
 {
-  "name": "auth-node",
+  "name": "gestor-de-opiniones",
   "version": "1.0.0",
-  "description": "API REST de autenticación robusta con Node.js y PostgreSQL",
+  "description": "API REST Gestor de Opiniones con Node.js, Express y MongoDB",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production node index.js",
-    "dev": "NODE_ENV=development nodemon index.js",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js"
   },
   "keywords": [
-    "auth",
-    "authentication",
+    "gestor-opiniones",
     "nodejs",
-    "postgresql",
+    "mongodb",
     "jwt",
     "api"
   ],
-  "author": "Braulio Echeverria",
   "license": "MIT",
   "dependencies": {
     "argon2": "^0.44.0",
@@ -33,15 +27,15 @@
     "express-validator": "^7.2.1",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.23.0",
     "morgan": "^1.10.1",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.17",
     "nodemon": "^3.1.10",
-    "pg": "^8.13.1",
-    "sequelize": "^6.35.0",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
+    "cross-env": "^10.1.0",
     "nodemon": "^3.1.10"
   }
 }

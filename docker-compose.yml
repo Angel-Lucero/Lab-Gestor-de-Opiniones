@@ -1,0 +1,16 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: gestor_opiniones_mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin1234
+      MONGO_INITDB_DATABASE: gestor_opiniones
+    volumes:
+      - gestor_opiniones_data:/data/db
+
+volumes:
+  gestor_opiniones_data:
