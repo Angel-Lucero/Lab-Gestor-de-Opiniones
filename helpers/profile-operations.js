@@ -2,7 +2,6 @@ import { findUserById, updateUserProfile } from './user-db.js';
 import { buildUserResponse } from '../utils/user-helpers.js';
 import { verifyPassword, hashPassword } from '../utils/password-utils.js';
 import { uploadImage } from './cloudinary-service.js';
-import path from 'path';
 import crypto from 'crypto';
 import { config } from '../configs/config.js';
 
@@ -55,9 +54,8 @@ export const updateUserProfileHelper = async (userId, updateData, file) => {
   let profilePictureToStore = undefined;
   if (file) {
     try {
-      const ext = path.extname(file.path);
       const randomHex = crypto.randomBytes(6).toString('hex');
-      const cloudinaryFileName = `profile-${randomHex}${ext}`;
+      const cloudinaryFileName = `profile-${randomHex}`;
       profilePictureToStore = await uploadImage(file.path, cloudinaryFileName);
     } catch (err) {
       console.error('Error subiendo imagen a Cloudinary:', err);

@@ -19,7 +19,6 @@ import { verifyPassword } from '../utils/password-utils.js';
 import { buildUserResponse } from '../utils/user-helpers.js';
 import { sendVerificationEmail } from './email-service.js';
 import { generateJWT } from './generate-jwt.js';
-import path from 'path';
 import { uploadImage } from './cloudinary-service.js';
 import { config } from '../configs/config.js';
 
@@ -47,17 +46,17 @@ export const registerUserHelper = async (userData) => {
     let profilePictureToStore = profilePicture;
     if (profilePicture) {
       const uploadPath = config.upload.uploadPath;
+      const normalizedPicture = profilePicture.replace(/\\/g, '/');
       const isLocalFile =
-        profilePicture.includes('uploads/') ||
-        profilePicture.includes(uploadPath) ||
-        profilePicture.startsWith('./');
+        normalizedPicture.includes('uploads/') ||
+        (uploadPath && normalizedPicture.includes(uploadPath.replace(/\\/g, '/'))) ||
+        normalizedPicture.startsWith('./');
 
       if (isLocalFile) {
         try {
-          const ext = path.extname(profilePicture);
           const randomHex = crypto.randomBytes(6).toString('hex');
-          const cloudinaryFileName = `profile-${randomHex}${ext}`;
-          profilePictureToStore = await uploadImage(profilePicture, cloudinaryFileName);
+          const cloudinaryFileName = `profile-${randomHex}`;
+          profilePictureToStore = await uploadImage(normalizedPicture, cloudinaryFileName);
         } catch (err) {
           console.error('Error subiendo imagen a Cloudinary en registro:', err);
           profilePictureToStore = null;

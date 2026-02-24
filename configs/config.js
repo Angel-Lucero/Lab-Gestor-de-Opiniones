@@ -36,19 +36,9 @@ export const config = {
     apiKey: process.env.CLOUDINARY_API_KEY,
     apiSecret: process.env.CLOUDINARY_API_SECRET,
     baseUrl: process.env.CLOUDINARY_BASE_URL,
-    // Expand nested env references if not supported by dotenv
-    // If CLOUDINARY_DEFAULT_AVATAR contains ${...}, build it from folder + filename
-    defaultAvatarPath:
-      process.env.CLOUDINARY_DEFAULT_AVATAR &&
-      !process.env.CLOUDINARY_DEFAULT_AVATAR.includes('${')
-        ? process.env.CLOUDINARY_DEFAULT_AVATAR
-        : [
-            process.env.CLOUDINARY_FOLDER,
-            process.env.CLOUDINARY_DEFAULT_AVATAR_FILENAME,
-          ]
-            .filter(Boolean)
-            .join('/'),
-    folder: process.env.CLOUDINARY_FOLDER,
+    defaultAvatarPath: process.env.CLOUDINARY_DEFAULT_AVATAR_FILENAME || '',
+    folder: process.env.CLOUDINARY_FOLDER || '',
+    uploadPreset: process.env.CLOUDINARY_UPLOAD_PRESET || '',
   },
 
   // Rate Limiting (aligned with .NET AuthPolicy and ApiPolicy)
