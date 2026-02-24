@@ -13,6 +13,8 @@ const router = Router();
 
 router.use(validateJWT);
 
+router.get('/user/:userId', requestLimit, commentController.getCommentsByUser);
+
 router.post('/:postId', validateCreateComment, commentController.createComment);
 
 router.get('/:postId', requestLimit, commentController.getCommentsByPost);

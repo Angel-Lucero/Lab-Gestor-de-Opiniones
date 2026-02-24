@@ -105,3 +105,18 @@ export const deleteComment = asyncHandler(async (req, res) => {
     message: 'Comentario eliminado exitosamente',
   });
 });
+
+export const getCommentsByUser = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+
+  const comments = await Comment.find({ author: userId })
+    .populate('author', 'username name surname profilePicture')
+    .populate('post', 'title category')
+    .sort({ createdAt: -1 });
+
+  return res.status(200).json({
+    success: true,
+    data: comments,
+    total: comments.length,
+  });
+});

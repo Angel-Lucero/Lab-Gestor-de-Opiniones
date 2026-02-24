@@ -15,6 +15,8 @@ router.use(validateJWT);
 
 router.get('/', requestLimit, postController.getAllPosts);
 
+router.get('/user/:userId', requestLimit, postController.getPostsByUser);
+
 router.get('/:id', requestLimit, postController.getPostById);
 
 router.post('/', validateCreatePost, postController.createPost);

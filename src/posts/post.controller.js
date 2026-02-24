@@ -126,3 +126,17 @@ export const deletePost = asyncHandler(async (req, res) => {
     message: 'Publicación eliminada exitosamente',
   });
 });
+
+export const getPostsByUser = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+
+  const posts = await Post.find({ author: userId })
+    .populate('author', 'username name surname profilePicture')
+    .sort({ createdAt: -1 });
+
+  return res.status(200).json({
+    success: true,
+    data: posts,
+    total: posts.length,
+  });
+});
